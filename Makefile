@@ -12,7 +12,7 @@ endif
 
 CFLAGS=-O2 -g -Wall -W `pkg-config --cflags librtlsdr`
 LIBS=`pkg-config --libs librtlsdr` -lpthread -lm
-CC=gcc
+#CC=gcc
 
 
 all: dump1090 view1090
@@ -28,3 +28,14 @@ view1090: view1090.o anet.o interactive.o mode_ac.o mode_s.o net_io.o
 
 clean:
 	rm -f *.o dump1090 view1090
+
+install: dump1090
+	    	install -m 0755 dump1090 $(prefix)/bin
+		mkdir -p $(prefix)/share/dump1090/public_html/coolclock
+		install -m 0644 public_html/*.html $(prefix)/share/dump1090/public_html
+		install -m 0644 public_html/*.js $(prefix)/share/dump1090/public_html
+		install -m 0644 public_html/*.css $(prefix)/share/dump1090/public_html
+		install -m 0644 public_html/coolclock/*.js $(prefix)/share/dump1090/public_html/coolclock
+
+.PHONY: install 
+	
